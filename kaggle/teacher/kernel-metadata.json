@@ -1,0 +1,13 @@
+{
+  "id": "nikakatsitadze/georgian-teacher-embeddings",
+  "title": "georgian-teacher-embeddings",
+  "code_file": "teacher_embed.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["nikakatsitadze/georgian-embedding-train-texts"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

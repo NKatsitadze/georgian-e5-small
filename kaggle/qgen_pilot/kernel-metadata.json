@@ -1,0 +1,13 @@
+{
+  "id": "nikakatsitadze/georgian-qgen-pilot-run",
+  "title": "georgian-qgen-pilot-run",
+  "code_file": "qgen_pilot.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["nikakatsitadze/georgian-qgen-pilot"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

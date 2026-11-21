@@ -1,0 +1,13 @@
+{
+  "id": "nikakatsitadze/georgian-translate-pilot-run",
+  "title": "georgian-translate-pilot-run",
+  "code_file": "translate_pilot.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["nikakatsitadze/georgian-translate-pilot"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

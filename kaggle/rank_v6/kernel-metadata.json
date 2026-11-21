@@ -1,0 +1,13 @@
+{
+  "id": "nikakatsitadze/georgian-rank-v6",
+  "title": "georgian-rank-v6",
+  "code_file": "rank_v6.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["nikakatsitadze/georgian-embedding-train-texts", "nikakatsitadze/georgian-student-v2-epoch6"],
+  "competition_sources": [],
+  "kernel_sources": ["nikakatsitadze/georgian-teacher-embeddings", "nikakatsitadze/georgian-teacher-pairs-v6"]
+}

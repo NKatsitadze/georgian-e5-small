@@ -1,0 +1,272 @@
+[
+  {
+    "model": "intfloat/multilingual-e5-small",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-kat_Geor",
+    "ndcg_at_10": 0.6851,
+    "recall_at_1": 0.56556,
+    "recall_at_10": 0.81556,
+    "mrr_at_10": 0.644026
+  },
+  {
+    "model": "intfloat/multilingual-e5-small",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-eng_Latn",
+    "ndcg_at_10": 0.71579,
+    "recall_at_1": 0.57333,
+    "recall_at_10": 0.86778,
+    "mrr_at_10": 0.66785
+  },
+  {
+    "model": "intfloat/multilingual-e5-small",
+    "task": "BelebeleRetrieval",
+    "subset": "eng_Latn-kat_Geor",
+    "ndcg_at_10": 0.53672,
+    "recall_at_1": 0.38889,
+    "recall_at_10": 0.69222,
+    "mrr_at_10": 0.48749
+  },
+  {
+    "model": "intfloat/multilingual-e5-small",
+    "task": "GeorgianFAQRetrieval",
+    "subset": "default",
+    "ndcg_at_10": 0.2897,
+    "recall_at_1": 0.20468,
+    "recall_at_10": 0.38635,
+    "mrr_at_10": 0.259403
+  },
+  {
+    "model": "intfloat/multilingual-e5-small",
+    "task": "WebFAQRetrieval",
+    "subset": "kat",
+    "ndcg_at_10": 0.63852,
+    "recall_at_1": 0.55187,
+    "recall_at_10": 0.74274,
+    "mrr_at_10": 0.606086
+  },
+  {
+    "model": "intfloat/multilingual-e5-base",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-kat_Geor",
+    "ndcg_at_10": 0.7562,
+    "recall_at_1": 0.65667,
+    "recall_at_10": 0.85556,
+    "mrr_at_10": 0.724391975308642
+  },
+  {
+    "model": "intfloat/multilingual-e5-base",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-eng_Latn",
+    "ndcg_at_10": 0.78888,
+    "recall_at_1": 0.66333,
+    "recall_at_10": 0.91222,
+    "mrr_at_10": 0.7491199294532629
+  },
+  {
+    "model": "intfloat/multilingual-e5-base",
+    "task": "BelebeleRetrieval",
+    "subset": "eng_Latn-kat_Geor",
+    "ndcg_at_10": 0.61346,
+    "recall_at_1": 0.48778,
+    "recall_at_10": 0.75444,
+    "mrr_at_10": 0.5692244268077602
+  },
+  {
+    "model": "intfloat/multilingual-e5-base",
+    "task": "GeorgianFAQRetrieval",
+    "subset": "default",
+    "ndcg_at_10": 0.38652,
+    "recall_at_1": 0.27563,
+    "recall_at_10": 0.50877,
+    "mrr_at_10": 0.34809276277112533
+  },
+  {
+    "model": "intfloat/multilingual-e5-base",
+    "task": "WebFAQRetrieval",
+    "subset": "kat",
+    "ndcg_at_10": 0.66222,
+    "recall_at_1": 0.57676,
+    "recall_at_10": 0.76349,
+    "mrr_at_10": 0.6308074820522954
+  },
+  {
+    "model": "intfloat/multilingual-e5-large",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-kat_Geor",
+    "ndcg_at_10": 0.8183,
+    "recall_at_1": 0.72667,
+    "recall_at_10": 0.90667,
+    "mrr_at_10": 0.7897632275132276
+  },
+  {
+    "model": "intfloat/multilingual-e5-large",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-eng_Latn",
+    "ndcg_at_10": 0.87503,
+    "recall_at_1": 0.80111,
+    "recall_at_10": 0.94778,
+    "mrr_at_10": 0.8517548500881834
+  },
+  {
+    "model": "intfloat/multilingual-e5-large",
+    "task": "BelebeleRetrieval",
+    "subset": "eng_Latn-kat_Geor",
+    "ndcg_at_10": 0.77545,
+    "recall_at_1": 0.68444,
+    "recall_at_10": 0.87444,
+    "mrr_at_10": 0.7442217813051146
+  },
+  {
+    "model": "intfloat/multilingual-e5-large",
+    "task": "GeorgianFAQRetrieval",
+    "subset": "default",
+    "ndcg_at_10": 0.45133,
+    "recall_at_1": 0.32593,
+    "recall_at_10": 0.59181,
+    "mrr_at_10": 0.40731705807729196
+  },
+  {
+    "model": "intfloat/multilingual-e5-large",
+    "task": "WebFAQRetrieval",
+    "subset": "kat",
+    "ndcg_at_10": 0.74931,
+    "recall_at_1": 0.6556,
+    "recall_at_10": 0.84647,
+    "mrr_at_10": 0.7185454126325496
+  },
+  {
+    "model": "BAAI/bge-m3",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-kat_Geor",
+    "ndcg_at_10": 0.91071,
+    "recall_at_1": 0.85556,
+    "recall_at_10": 0.96333,
+    "mrr_at_10": 0.8937676366843034
+  },
+  {
+    "model": "BAAI/bge-m3",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-eng_Latn",
+    "ndcg_at_10": 0.88969,
+    "recall_at_1": 0.80778,
+    "recall_at_10": 0.96222,
+    "mrr_at_10": 0.8659559082892416
+  },
+  {
+    "model": "BAAI/bge-m3",
+    "task": "BelebeleRetrieval",
+    "subset": "eng_Latn-kat_Geor",
+    "ndcg_at_10": 0.87556,
+    "recall_at_1": 0.79556,
+    "recall_at_10": 0.94778,
+    "mrr_at_10": 0.8520573192239859
+  },
+  {
+    "model": "BAAI/bge-m3",
+    "task": "GeorgianFAQRetrieval",
+    "subset": "default",
+    "ndcg_at_10": 0.6716,
+    "recall_at_1": 0.52924,
+    "recall_at_10": 0.81559,
+    "mrr_at_10": 0.625590055385377
+  },
+  {
+    "model": "BAAI/bge-m3",
+    "task": "WebFAQRetrieval",
+    "subset": "kat",
+    "ndcg_at_10": 0.90739,
+    "recall_at_1": 0.83402,
+    "recall_at_10": 0.9751,
+    "mrr_at_10": 0.8853602713561219
+  },
+  {
+    "model": "ibm-granite/granite-embedding-97m-multilingual-r2",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-kat_Geor",
+    "ndcg_at_10": 0.50378,
+    "recall_at_1": 0.38778,
+    "recall_at_10": 0.62778,
+    "mrr_at_10": 0.46464373897707234
+  },
+  {
+    "model": "ibm-granite/granite-embedding-97m-multilingual-r2",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-eng_Latn",
+    "ndcg_at_10": 0.22848,
+    "recall_at_1": 0.13778,
+    "recall_at_10": 0.35333,
+    "mrr_at_10": 0.19081569664902998
+  },
+  {
+    "model": "ibm-granite/granite-embedding-97m-multilingual-r2",
+    "task": "BelebeleRetrieval",
+    "subset": "eng_Latn-kat_Geor",
+    "ndcg_at_10": 0.09998,
+    "recall_at_1": 0.06222,
+    "recall_at_10": 0.15444,
+    "mrr_at_10": 0.08372398589065255
+  },
+  {
+    "model": "ibm-granite/granite-embedding-97m-multilingual-r2",
+    "task": "GeorgianFAQRetrieval",
+    "subset": "default",
+    "ndcg_at_10": 0.40828,
+    "recall_at_1": 0.28577,
+    "recall_at_10": 0.54308,
+    "mrr_at_10": 0.36583990841300784
+  },
+  {
+    "model": "ibm-granite/granite-embedding-97m-multilingual-r2",
+    "task": "WebFAQRetrieval",
+    "subset": "kat",
+    "ndcg_at_10": 0.74314,
+    "recall_at_1": 0.62656,
+    "recall_at_10": 0.85892,
+    "mrr_at_10": 0.7060610551274451
+  },
+  {
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-kat_Geor",
+    "ndcg_at_10": 0.73133,
+    "recall_at_1": 0.63333,
+    "recall_at_10": 0.82778,
+    "mrr_at_10": 0.7003328924162258
+  },
+  {
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "task": "BelebeleRetrieval",
+    "subset": "kat_Geor-eng_Latn",
+    "ndcg_at_10": 0.76105,
+    "recall_at_1": 0.64444,
+    "recall_at_10": 0.87889,
+    "mrr_at_10": 0.7232367724867725
+  },
+  {
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "task": "BelebeleRetrieval",
+    "subset": "eng_Latn-kat_Geor",
+    "ndcg_at_10": 0.56121,
+    "recall_at_1": 0.45111,
+    "recall_at_10": 0.67889,
+    "mrr_at_10": 0.5240176366843033
+  },
+  {
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "task": "GeorgianFAQRetrieval",
+    "subset": "default",
+    "ndcg_at_10": 0.49244,
+    "recall_at_1": 0.35283,
+    "recall_at_10": 0.64172,
+    "mrr_at_10": 0.44522463566323217
+  },
+  {
+    "model": "Qwen/Qwen3-Embedding-0.6B",
+    "task": "WebFAQRetrieval",
+    "subset": "kat",
+    "ndcg_at_10": 0.77858,
+    "recall_at_1": 0.67635,
+    "recall_at_10": 0.86722,
+    "mrr_at_10": 0.7493644207337153
+  }
+]

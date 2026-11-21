@@ -1,0 +1,13 @@
+{
+  "id": "nikakatsitadze/georgian-rerank-test",
+  "title": "georgian-rerank-test",
+  "code_file": "rerank_test.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["nikakatsitadze/georgian-rerank-test-data"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

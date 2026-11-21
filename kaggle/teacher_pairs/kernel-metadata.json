@@ -1,0 +1,13 @@
+{
+  "id": "nikakatsitadze/georgian-teacher-pairs",
+  "title": "georgian-teacher-pairs",
+  "code_file": "teacher_pairs.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": ["nikakatsitadze/georgian-embedding-train-pairs"],
+  "competition_sources": [],
+  "kernel_sources": []
+}

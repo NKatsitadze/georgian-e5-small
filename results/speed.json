@@ -1,0 +1,62 @@
+[
+  {
+    "model": "intfloat/multilingual-e5-small",
+    "params_millions": 118,
+    "dimensions": 384,
+    "docs_per_second": 101.8,
+    "queries_per_second": 429.1,
+    "query_latency_ms_p50": 5.9,
+    "query_latency_ms_p95": 6.3,
+    "peak_memory_mb": 1860,
+    "median_doc_tokens": 82,
+    "torch_threads": 6
+  },
+  {
+    "model": "intfloat/multilingual-e5-base",
+    "params_millions": 278,
+    "dimensions": 768,
+    "docs_per_second": 36.2,
+    "queries_per_second": 144.4,
+    "query_latency_ms_p50": 17.8,
+    "query_latency_ms_p95": 18.2,
+    "peak_memory_mb": 2760,
+    "median_doc_tokens": 82,
+    "torch_threads": 6
+  },
+  {
+    "model": "intfloat/multilingual-e5-large",
+    "params_millions": 560,
+    "dimensions": 1024,
+    "docs_per_second": 11.0,
+    "queries_per_second": 43.4,
+    "query_latency_ms_p50": 57.4,
+    "query_latency_ms_p95": 58.3,
+    "peak_memory_mb": 3961,
+    "median_doc_tokens": 82,
+    "torch_threads": 6
+  },
+  {
+    "model": "BAAI/bge-m3",
+    "params_millions": 568,
+    "dimensions": 1024,
+    "docs_per_second": 11.0,
+    "queries_per_second": 43.7,
+    "query_latency_ms_p50": 53.1,
+    "query_latency_ms_p95": 54.1,
+    "peak_memory_mb": 3959,
+    "median_doc_tokens": 82,
+    "torch_threads": 6
+  },
+  {
+    "model": "Snowflake/snowflake-arctic-embed-l-v2.0",
+    "params_millions": 568,
+    "dimensions": 1024,
+    "docs_per_second": 11.0,
+    "queries_per_second": 43.3,
+    "query_latency_ms_p50": 56.1,
+    "query_latency_ms_p95": 60.9,
+    "peak_memory_mb": 3909,
+    "median_doc_tokens": 82,
+    "torch_threads": 6
+  }
+]
