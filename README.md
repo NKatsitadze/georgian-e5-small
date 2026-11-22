@@ -5,7 +5,7 @@ built it: knowledge distillation from large models, run on free Kaggle GPUs.
 
 - 🤗 Model: [nkatsitadze/georgian-e5-small](https://huggingface.co/nkatsitadze/georgian-e5-small) (118M params)
 - 🤗 Lite: [nkatsitadze/georgian-e5-small-lite](https://huggingface.co/nkatsitadze/georgian-e5-small-lite) (same scores, half the file size)
-- 🔎 Demo: [Georgian semantic search](https://huggingface.co/spaces/nkatsitadze/georgian-e5-small-demo)
+- 🔎 Demo: [Georgian semantic search](https://huggingface.co/spaces/nkatsitadze/georgian-e5-small-demo), the lite model running **in your browser** (Transformers.js, 8-bit ONNX)
 
 ```python
 from sentence_transformers import SentenceTransformer
@@ -51,7 +51,11 @@ at 9× the CPU speed of the teacher. Full table with 13 models: [results/baselin
 6. **Model soup**: the final model averages the weights of the bge-m3-taught and reranker-taught runs.
 7. **Release** ([trim_vocab.py](trim_vocab.py), [make_cards.py](make_cards.py)): vocabulary trimming for the lite
    version, verified by identical tokenization on held-out text; configs in the classic format so
-   sentence-transformers 3.x–6.x can load it.
+   sentence-transformers 3.x–6.x can load it; ONNX weights (fp32 identical to PyTorch, 8-bit 4× smaller at about
+   −1 nDCG point), checked end to end through Transformers.js.
+8. **Demo** ([demo/](demo)): a static page that runs the 8-bit lite model in the browser over 30,000 Georgian
+   Wikipedia passages (int8 document vectors, gzipped passages, ~25 ms per search). A Gradio version is in
+   `demo/space/`.
 
 ## Experiment log
 
@@ -89,7 +93,7 @@ licenses (e.g. MS MARCO) were not used.
 | `qgen/` | question → passage pairs (wiki-ka-QA, WebFAQ), translation pilots, test-set export |
 | `kaggle/` | GPU jobs, one folder per Kaggle kernel (teacher embeddings, distillation, ranking runs, reranker scoring) |
 | `trim_vocab.py`, `make_cards.py` | release: lite version and model cards |
-| `demo/` | the Hugging Face Space (Gradio) and the script that builds its search collection |
+| `demo/` | the browser demo (`static/`, published as the Hugging Face Space), a Gradio version (`space/`) and the scripts that build the search collection |
 | `review/` | the page used for native-speaker review of generated training data |
 | `results/` | benchmark tables and logs |
 

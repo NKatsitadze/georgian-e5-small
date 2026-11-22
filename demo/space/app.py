@@ -99,7 +99,7 @@ Scores are cosine similarities: compare them within one model's list, not betwee
 EXAMPLES = [
     "როდის დაარსდა თბილისი?",
     "ვინ დაწერა ვეფხისტყაოსანი?",
-    "რომელია საქართველოს უმაღლესი მწვერვალი?",
+    "ვინ იყო ილია ჭავჭავაძე?",
     "რა არის შავი ხვრელი?",
     "როდის მოხდა დიდგორის ბრძოლა?",
     "Who was Queen Tamar of Georgia?",

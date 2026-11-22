@@ -14,6 +14,7 @@ VARIANTS = {
         "languages": "- ka\n- en",
         "params": "118M parameters",
         "size": "458 MB",
+        "q8_size": "118 MB",
         "score": "77.9",
         "row": "| **georgian-e5-small (this model)** | **118M** | **77.9** | 78.7 | 82.5 | 87.9 | 56.7 | 84.0 |\n"
         "| georgian-e5-small-lite | 58M | 77.9 | 78.7 | 82.5 | 87.9 | 56.6 | 84.0 |",
@@ -26,6 +27,7 @@ VARIANTS = {
         "languages": "- ka\n- en\n- ru",
         "params": "118M parameters, 58M after this version's vocabulary trimming",
         "size": "223 MB",
+        "q8_size": "58 MB",
         "score": "77.9",
         "row": f"| [georgian-e5-small](https://huggingface.co/{USER}/georgian-e5-small) | 118M | 77.9 | 78.7 | 82.5 | 87.9 | 56.7 | 84.0 |\n"
         "| **georgian-e5-small-lite (this model)** | **58M** | **77.9** | 78.7 | 82.5 | 87.9 | 56.6 | 84.0 |",
@@ -73,6 +75,8 @@ tags:
 - retrieval
 - georgian
 - knowledge-distillation
+- onnx
+- transformers.js
 datasets:
 - wikimedia/wikipedia
 - HuggingFaceFW/fineweb-2
@@ -93,6 +97,9 @@ multilingual-e5-large, which is 5× larger. It runs comfortably on a CPU (~100 d
 query on a laptop), so documents can stay on your own server.
 
 {intro_extra}
+
+**Try it in your browser:** [Georgian semantic search demo](https://huggingface.co/spaces/{user}/georgian-e5-small-demo)
+(the lite model runs on your device with Transformers.js, searching 30,000 Georgian Wikipedia articles).
 
 ## Usage
 
@@ -119,6 +126,23 @@ print(model.similarity(query_vectors, document_vectors))
 The model expects the e5 prefixes: **`"query: "`** before search queries and **`"passage: "`** before documents.
 `prompt_name="query"` / `"document"` adds them for you; in other frameworks, add them to the text yourself.
 Inputs longer than 512 tokens are truncated, so split long documents into passages.
+
+### JavaScript (Transformers.js) and ONNX
+
+The repository includes ONNX weights (`onnx/model.onnx` in full precision and `onnx/model_quantized.onnx` in
+8-bit), so the model also runs in the browser or Node.js with
+[Transformers.js](https://huggingface.co/docs/transformers.js):
+
+```js
+import {{ pipeline }} from "@huggingface/transformers";
+
+const extractor = await pipeline("feature-extraction", "{user}/{name}", {{ dtype: "fp32" }});  // or "q8"
+const vectors = await extractor(["query: როდის დაარსდა თბილისი?"], {{ pooling: "mean", normalize: true }});
+```
+
+`fp32` gives exactly the same vectors as the Python model. `q8` is 4× smaller ({q8_size}) and scores about one
+point lower (76.8 nDCG@10 with both queries and documents in 8-bit, 77.4 with 8-bit queries against
+full-precision document vectors). Add the `"query: "` / `"passage: "` prefixes yourself.
 
 ## Results
 

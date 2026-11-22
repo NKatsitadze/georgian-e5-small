@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Georgian Semantic Search</title>
+<meta name="description" content="Search 30,000 Georgian Wikipedia articles by meaning with georgian-e5-small, running entirely in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f6f3; --surface: #ffffff; --text: #1d1d1f; --muted: #6b6b70; --border: #e3e1dc;
+  --accent: #c8102e; --accent-soft: #fbe9ec; --bar: #ece9e4; --ok: #1f7a4d; --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+  --font: "Inter", "Noto Sans Georgian", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121214; --surface: #1c1c1f; --text: #ececee; --muted: #9b9ba3; --border: #2e2e33;
+    --accent: #ff5a6e; --accent-soft: #3a1d23; --bar: #2a2a2f; --ok: #4cc38a; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121214; --surface: #1c1c1f; --text: #ececee; --muted: #9b9ba3; --border: #2e2e33;
+  --accent: #ff5a6e; --accent-soft: #3a1d23; --bar: #2a2a2f; --ok: #4cc38a; --shadow: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 32px 16px 48px; }
+header h1 { font-size: clamp(24px, 4vw, 34px); margin: 0 0 6px; letter-spacing: -0.02em; }
+header h1 span { color: var(--accent); }
+.lede { color: var(--muted); margin: 0 0 4px; max-width: 70ch; }
+.lede-ka { color: var(--muted); margin: 0; font-size: 15px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 14px 0 0; font-size: 14px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); }
+.status { margin: 22px 0; display: grid; gap: 8px; }
+.status .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; font-size: 13.5px; color: var(--muted); }
+.progress { height: 6px; border-radius: 4px; background: var(--bar); overflow: hidden; grid-column: 1 / -1; }
+.progress div { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+.status.done { display: none; }
+.tabs { display: flex; gap: 4px; margin: 22px 0 14px; border-bottom: 1px solid var(--border); }
+.tabs button { font: inherit; font-size: 15px; background: none; border: 0; padding: 10px 14px; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
+.search { display: flex; gap: 10px; }
+input[type="text"], textarea { font: inherit; font-size: 16px; width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+textarea { resize: vertical; min-height: 64px; }
+input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.btn { font: inherit; font-weight: 600; font-size: 15px; padding: 12px 20px; border-radius: 10px; border: 0; background: var(--accent); color: #fff; cursor: pointer; white-space: nowrap; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.chip { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.toggle { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); margin: 14px 0 4px; cursor: pointer; }
+.toggle input { accent-color: var(--accent); width: 16px; height: 16px; }
+.results { display: grid; gap: 18px; margin-top: 18px; }
+.results.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) { .results.two { grid-template-columns: minmax(0, 1fr); } .search { flex-direction: column; } }
+.col h2 { font-size: 15px; margin: 0 0 10px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.col h2 small { color: var(--muted); font-weight: 400; font-size: 13px; }
+.hit { padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin-bottom: 10px; }
+.hit-top { display: flex; gap: 10px; align-items: baseline; }
+.rank { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.hit-top a { font-weight: 600; flex: 1; overflow-wrap: anywhere; }
+.score { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hit p { margin: 6px 0 0; font-size: 14.5px; line-height: 1.6; overflow-wrap: anywhere; }
+.empty { color: var(--muted); font-size: 14px; }
+.timing { color: var(--muted); font-size: 13px; margin-top: 8px; min-height: 1.2em; }
+.compare-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .compare-grid { grid-template-columns: minmax(0, 1fr); } }
+.sim { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; }
+.sim .bar { height: 10px; border-radius: 6px; background: var(--bar); overflow: hidden; }
+.sim .bar div { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
+.sim b { font-size: 20px; font-variant-numeric: tabular-nums; }
+.sim p { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 14px; }
+footer { margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13.5px; display: grid; gap: 6px; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Georgian semantic search <span>·</span> georgian-e5-small</h1>
+    <p class="lede">Ask a question in Georgian (or English) and find the matching passages among 30,000 Georgian Wikipedia articles, matched by meaning rather than exact words. The model runs <b>entirely in your browser</b>: nothing you type leaves your device.</p>
+    <p class="lede-ka" lang="ka">დასვით კითხვა ქართულად ან ინგლისურად — მოდელი ტექსტებს მნიშვნელობით პოულობს და მთლიანად თქვენს ბრაუზერში მუშაობს.</p>
+    <div class="links">
+      <a href="https://huggingface.co/nkatsitadze/georgian-e5-small" target="_blank" rel="noopener">Model</a>
+      <a href="https://huggingface.co/nkatsitadze/georgian-e5-small-lite" target="_blank" rel="noopener">Lite model (used here)</a>
+      <a href="https://github.com/NKatsitadze/georgian-e5-small" target="_blank" rel="noopener">Code on GitHub</a>
+    </div>
+  </header>
+
+  <section class="card status" id="status" aria-live="polite">
+    <div class="row"><span id="status-text">Loading the model (about 60 MB, downloaded once and then cached)…</span><span id="status-pct">0%</span>
+      <div class="progress"><div id="status-bar"></div></div></div>
+  </section>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="search">Search · ძიება</button>
+    <button role="tab" aria-selected="false" data-tab="compare">Compare two texts · შედარება</button>
+  </nav>
+
+  <section id="tab-search">
+    <form class="search" id="search-form">
+      <input type="text" id="query" lang="ka" placeholder="მაგ.: როდის დაარსდა თბილისი?" autocomplete="off" aria-label="Question">
+      <button class="btn" id="search-btn" type="submit" disabled>Search</button>
+    </form>
+    <div class="chips" id="examples"></div>
+    <label class="toggle"><input type="checkbox" id="compare-toggle"> Compare with the original multilingual-e5-small (downloads another ~120 MB)</label>
+    <div class="timing" id="timing"></div>
+    <div class="results" id="results"></div>
+  </section>
+
+  <section id="tab-compare" hidden>
+    <div class="compare-grid">
+      <textarea id="text-a" lang="ka" aria-label="Text A">ქალაქი, სადაც საქართველოს პარლამენტი მდებარეობს</textarea>
+      <textarea id="text-b" lang="ka" aria-label="Text B">თბილისი საქართველოს დედაქალაქია</textarea>
+    </div>
+    <p><button class="btn" id="compare-btn" disabled>Compare</button></p>
+    <div class="sim" id="sim" hidden>
+      <div class="bar"><div id="sim-bar"></div></div><b id="sim-value"></b>
+      <p id="sim-note"></p>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>georgian-e5-small</b> · 118M parameters (lite: 58M) · MIT license · Georgian MTEB retrieval <b>77.9</b> nDCG@10 (original model 61.5, bge-m3 85.1). This demo runs the 8-bit lite model, about half a point lower than full precision.</div>
+    <div>Passages from <a href="https://ka.wikipedia.org" target="_blank" rel="noopener">Georgian Wikipedia</a> (CC BY-SA 4.0); each result links to its article. Scores are cosine similarities: compare them within one model's list, not between models.</div>
+  </footer>
+</div>
+
+<script type="module">
+import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2";
+env.allowLocalModels = false;
+
+const OURS = "nkatsitadze/georgian-e5-small-lite";
+const BASE = "Xenova/multilingual-e5-small";
+const TOP_K = 5;
+const EXAMPLES = ["როდის დაარსდა თბილისი?", "ვინ დაწერა ვეფხისტყაოსანი?", "ვინ იყო ილია ჭავჭავაძე?", "რა არის შავი ხვრელი?",
+                  "როდის მოხდა დიდგორის ბრძოლა?", "Who was Queen Tamar of Georgia?", "Where is the Gelati monastery?"];
+const $ = (id) => document.getElementById(id);
+const state = { docs: null, ours: null, base: null, models: {}, loadingBase: null };
+
+const escapeHtml = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const wikiUrl = (title) => "https://ka.wikipedia.org/wiki/" + encodeURIComponent(title.replaceAll(" ", "_"));
+
+// ---- loading with one combined progress bar --------------------------------------------------------
+const progress = {};
+function report(key, loaded, total) {
+  progress[key] = { loaded, total };
+  const all = Object.values(progress), done = all.reduce((a, p) => a + p.loaded, 0), sum = all.reduce((a, p) => a + (p.total || 0), 0);
+  const pct = sum ? Math.min(100, Math.round((done / sum) * 100)) : 0;
+  $("status-bar").style.width = pct + "%"; $("status-pct").textContent = pct + "%";
+}
+async function fetchWithProgress(url, key) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url}: HTTP ${res.status}`);
+  const total = Number(res.headers.get("content-length")) || 0, reader = res.body.getReader(), chunks = [];
+  let loaded = 0;
+  for (;;) { const { done, value } = await reader.read(); if (done) break; chunks.push(value); loaded += value.length; report(key, loaded, total || loaded); }
+  const out = new Uint8Array(loaded); let offset = 0;
+  for (const c of chunks) { out.set(c, offset); offset += c.length; }
+  return out.buffer;
+}
+async function loadVectors(name) {
+  const [q, s] = await Promise.all([fetchWithProgress(`emb_${name}.i8`, `${name}.i8`), fetchWithProgress(`emb_${name}.f32`, `${name}.f32`)]);
+  return { q: new Int8Array(q), scale: new Float32Array(s), dims: 384 };
+}
+function loadModel(id, label) {
+  return pipeline("feature-extraction", id, { dtype: "q8", progress_callback: (p) => {
+    if (p.status === "progress" && p.file) report(`${label}:${p.file}`, p.loaded, p.total);
+  } });
+}
+
+async function init() {
+  try {
+    const [docsGz, ours, model] = await Promise.all([fetchWithProgress("docs.json.gz", "docs"), loadVectors("ours"), loadModel(OURS, "ours")]);
+    const docsText = await new Response(new Blob([docsGz]).stream().pipeThrough(new DecompressionStream("gzip"))).text();
+    state.docs = JSON.parse(docsText); state.ours = ours; state.models.ours = model;
+    $("status").classList.add("done");
+    $("search-btn").disabled = false; $("compare-btn").disabled = false;
+    if ($("query").value.trim()) search();
+  } catch (err) {
+    $("status-text").textContent = "Couldn't load the model: " + err.message + ". Try reloading the page.";
+  }
+}
+
+// ---- search ----------------------------------------------------------------------------------------
+async function embed(key, text) {
+  const out = await state.models[key](text, { pooling: "mean", normalize: true });
+  return out.data;
+}
+function topK(vectors, query, k) {
+  const { q, scale, dims } = vectors, n = scale.length, scores = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    let s = 0; const off = i * dims;
+    for (let j = 0; j < dims; j++) s += q[off + j] * query[j];
+    scores[i] = s * scale[i];
+  }
+  const best = [];
+  for (let i = 0; i < n; i++) {
+    if (best.length < k || scores[i] > best[best.length - 1][1]) {
+      best.push([i, scores[i]]); best.sort((a, b) => b[1] - a[1]); if (best.length > k) best.pop();
+    }
+  }
+  return best;
+}
+function renderColumn(title, note, hits) {
+  const items = hits.map(([i, s], r) => {
+    const t = state.docs.title[i];
+    return `<div class="hit"><div class="hit-top"><span class="rank">${r + 1}</span><a href="${wikiUrl(t)}" target="_blank" rel="noopener" lang="ka">${escapeHtml(t)}</a><span class="score">${s.toFixed(3)}</span></div><p lang="ka">${escapeHtml(state.docs.snippet[i])}</p></div>`;
+  }).join("");
+  return `<div class="col"><h2>${title} <small>${note}</small></h2>${items}</div>`;
+}
+async function ensureBase() {
+  if (state.models.base && state.base) return;
+  if (!state.loadingBase) {
+    $("status").classList.remove("done"); $("status-text").textContent = "Loading the original multilingual-e5-small for comparison…";
+    for (const k of Object.keys(progress)) delete progress[k];
+    report("start", 0, 1);
+    state.loadingBase = Promise.all([loadVectors("base"), loadModel(BASE, "base")]).then(([v, m]) => {
+      state.base = v; state.models.base = m; $("status").classList.add("done");
+    });
+  }
+  await state.loadingBase;
+}
+async function search() {
+  const query = $("query").value.trim();
+  if (!query || !state.models.ours) return;
+  const compare = $("compare-toggle").checked, started = performance.now();
+  // Our model expects the e5 prefix; the original scores best on Georgian without it (61.5 vs 57.3).
+  const ours = topK(state.ours, await embed("ours", "query: " + query), TOP_K);
+  let html = renderColumn("georgian-e5-small", "this model", ours), ms = performance.now() - started;
+  if (compare) {
+    await ensureBase();
+    const base = topK(state.base, await embed("base", query), TOP_K);
+    html += renderColumn("multilingual-e5-small", "the original it started from", base);
+  }
+  $("results").className = "results" + (compare ? " two" : "");
+  $("results").innerHTML = html;
+  $("timing").textContent = `georgian-e5-small: ${Math.round(ms)} ms to embed the question and search 30,000 passages on your device`;
+}
+
+// ---- compare two texts -----------------------------------------------------------------------------
+async function compareTexts() {
+  const a = $("text-a").value.trim(), b = $("text-b").value.trim();
+  if (!a || !b || !state.models.ours) return;
+  const [va, vb] = [await embed("ours", "query: " + a), await embed("ours", "query: " + b)];
+  let sim = 0; for (let i = 0; i < va.length; i++) sim += va[i] * vb[i];
+  $("sim").hidden = false; $("sim-bar").style.width = Math.max(0, sim) * 100 + "%"; $("sim-value").textContent = sim.toFixed(3);
+  const verdict = sim >= 0.8 ? "very similar" : sim >= 0.7 ? "related" : "probably unrelated";
+  $("sim-note").textContent = `${verdict} · as a guide: related texts usually score 0.8–0.9, unrelated ones around 0.55.`;
+}
+
+// ---- wiring ----------------------------------------------------------------------------------------
+$("examples").innerHTML = EXAMPLES.map((e) => `<button class="chip" type="button" lang="ka">${escapeHtml(e)}</button>`).join("");
+$("examples").addEventListener("click", (e) => { if (e.target.matches(".chip")) { $("query").value = e.target.textContent; search(); } });
+$("search-form").addEventListener("submit", (e) => { e.preventDefault(); search(); });
+$("compare-toggle").addEventListener("change", () => { if ($("query").value.trim()) search(); });
+$("compare-btn").addEventListener("click", compareTexts);
+document.querySelectorAll(".tabs button").forEach((tab) => tab.addEventListener("click", () => {
+  document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
+  $("tab-search").hidden = tab.dataset.tab !== "search"; $("tab-compare").hidden = tab.dataset.tab !== "compare";
+}));
+init();
+</script>
+</body>
+</html>
